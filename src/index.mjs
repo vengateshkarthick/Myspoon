@@ -6,13 +6,12 @@ import Heading from "./Component/Heading";
 import RecipeContainer from "./Component/Recipe";
 import "./styles.css";
 
-
 const Container = () => {
   return (
-    <div id="container">
-     <Heading />
-     <RecipeContainer />
-     <Footer />
+    <div id="container-fluid">
+      <Heading />
+      <RecipeContainer />
+      <Footer />
     </div>
   );
 };

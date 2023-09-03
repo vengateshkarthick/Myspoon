@@ -2,11 +2,15 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="foooter">
-      <ul>
-        <li>Copyrights reserved</li>
-        <li>A product from DatAlaBs</li>
-        <li>Terms and Conditions</li>
+    <footer className="footer p-2">
+      <ul className="row row-cols-12 justify-content-evenly p-1 align-items-center">
+        <li className="col col-3 pe-pointer">&#169; Copyrights reserved</li>
+        <li className="col col-3 pe-pointer">A product from DatAlaBs</li>
+        <li className="col col-3 pe-pointer">
+          <a className="text-decoration-none text-white">
+            Terms and Conditions
+          </a>
+        </li>
       </ul>
     </footer>
   );

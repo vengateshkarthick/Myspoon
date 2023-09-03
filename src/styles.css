@@ -1,3 +1,108 @@
 * {
   font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --success-btn: #32a852;
+  --danger-btn: #ef4f5f;
+}
+.pe-cursor {
+  cursor: pointer;
+}
+.header {
+  border-radius: 10px;
+  font-size: 1.2rem;
+  position: sticky;
+  z-index: 3;
+}
+.logo img {
+  height: 60px;
+  width: auto;
+  object-fit: cover;
+}
+
+.app-title {
+  font-weight: bold;
+  color: var(--success-btn);
+}
+.header ul li {
+  width: fit-content;
+  padding: 0.4rem 0.9rem;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  list-style-type: none;
+  color: black;
+  border-radius: 2.9rem;
+  transition: background 300ms ease-in-out;
+  cursor: pointer;
+}
+.header .nav-items li:hover {
+  background-color: var(--danger-btn) !important;
+  color: #ffffff;
+}
+.header .nav-items li:hover > a {
+  color: #ffffff;
+}
+.header ul li > a {
+  color: var(--danger-btn);
+}
+body {
+  overflow-x: hidden !important;
+}
+
+.footer {
+  background-color: var(--success-btn);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.footer li {
+  font-weight: bolder;
+  color: #ffffff;
+  list-style-type: none;
+}
+
+.btn-success {
+  border-radius: 0.75rem;
+}
+.recipe-container {
+  height: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.recipe-len {
+  color: var(--success-btn);
+  font-size: 11px;
+}
+
+.recipe-card {
+  width: 19rem;
+}
+
+.recipe-name {
+  color: black;
+  font-weight: 600;
+}
+
+.btn-dark {
+  border: 0.5rem solid transparent;
+  border-radius: 1px;
+  outline: none;
+}
+
+.recipe-name-with {
+  color: var(--success-btn);
+  font-weight: bolder;
+}
+
+.no-data-image img {
+  height: 100px;
+  width: 100px;
+  user-select: none;
+}
+
+.search-bar input {
+  width: 400px;
 }
