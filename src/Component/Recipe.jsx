@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import RecipeCard from "./RecipeCard";
 import Search from "./Search";
 import RecipeModal from "./RecipeModal";
@@ -7,13 +8,46 @@ import NoData from "./NoData";
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
   const [recipes, setRecipes] = useState([]);
-  const [selectedRecipe, setSelectedRecipe] = useState(-1);
-
+  const [selectedRecipe, setSelectedRecipe] = useState("");
+  const handleClose = () => {
+    setSelectedRecipe("");
+  };
   const formatRecipeDetails = (details) => {
     return details;
   };
   const handleSelectedRecipe = (details) => {
-    setSelectedRecipe(formatRecipeDetails(details));
+    Promise.all([
+      api.fetchRecipeSummary(details.id),
+      api.fetchRecipeNutrientDetails(details.id),
+      api.fetchRecipeInstructions(details.id),
+    ])
+      .then(([res1, res2, res3]) => {
+        const recdetails = { id: details.id, image: details.image };
+        if (res1.data) {
+          recdetails.summary = res1.data.summary;
+          recdetails.title = res1.data.title;
+        }
+        if (res3.data) {
+          recdetails.steps = res3.data[0].steps?.map(
+            ({ step, ingredients }) => {
+              let i = {};
+              i.step = step;
+              i.ingridents =
+                ingredients
+                  .map(({ name }) => name[0].toUpperCase() + name.slice(1))
+                  .join(" ") || "Nil";
+              return i;
+            }
+          );
+        }
+        setSelectedRecipe(recdetails);
+      })
+      .catch((e) => {
+        toast.info("There is no details about recipe!!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+        });
+      });
   };
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -22,11 +56,25 @@ const RecipeContainer = () => {
 
   const handleSearchBtn = (e) => {
     e.preventDefault();
-    api.fetchRecipes(searchText).then((res) => {
-      if (res.data) {
-        setRecipes(res.data.results);
-      }
-    });
+    api
+      .fetchRecipes(searchText)
+      .then((res) => {
+        if (res.data) {
+          setRecipes(res.data.results);
+        } else {
+          toast.info("There is no details about recipe!!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1500,
+          });
+          setSearchText(" ");
+        }
+      })
+      .catch(() => {
+        toast.info("There is no details about recipe!!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+        });
+      });
   };
   return (
     <>
@@ -52,7 +100,6 @@ const RecipeContainer = () => {
                 handleTryIt={handleSelectedRecipe}
                 id={id}
                 {...details}
-                onSelect={handleSelectedRecipe}
               />
             ))
           ) : (
@@ -60,6 +107,9 @@ const RecipeContainer = () => {
           )}
         </div>
       </div>
+      {selectedRecipe && (
+        <RecipeModal {...selectedRecipe} handleClose={handleClose} />
+      )}
     </>
   );
 };

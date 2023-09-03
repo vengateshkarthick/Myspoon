@@ -8,9 +8,12 @@ const RecipeCard = ({
   handleTryIt,
   ...details
 }) => {
+  const handleSelect = () => {
+    handleTryIt({ title, id, image, ...details });
+  };
   return (
     <div
-      className="card border-0 recipe-card col-3 px-0 m-2"
+      className="card border-0 col-3 px-0 m-2 recipe-card pe-pointer"
       style={{ width: "17rem" }}
     >
       <img className="card-img-top" src={image} alt="recipeimage" />
@@ -23,7 +26,7 @@ const RecipeCard = ({
           </h4>
         </div>
         <div className="d-flex justify-content-end recipe-details-button">
-          <button className="btn  p-1 pe-pointer" onClick={handleTryIt}>
+          <button className="btn  p-1 pe-pointer" onClick={handleSelect}>
             More Details
           </button>
         </div>

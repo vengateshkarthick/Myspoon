@@ -21,7 +21,7 @@ const fetchRecipeSummary = (recipeId) =>
   axiosInstance.get(`recipes/${recipeId}/summary`);
 
 const fetchRecipeNutrientDetails = (recipeId) =>
-  axiosInstance.get(`food/ingredients/${recipeId}/information`);
+  axiosInstance.get(`recipes/${recipeId}/nutritionWidget.json`);
 
 export default {
   fetchRecipeInstructions,
