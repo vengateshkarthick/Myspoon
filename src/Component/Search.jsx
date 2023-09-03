@@ -2,7 +2,7 @@ import React from "react";
 
 const Search = ({ handleSearch, searchTxt, handleSearchBtn }) => {
   return (
-    <div className="search-bar d-flex align-items-center justify-content-center gap-3">
+    <div className="search-bar d-flex align-items-center mx-1 justify-content-center gap-3">
       <label className="form-label p-1">
         <input
           className="form-control"

@@ -9,31 +9,26 @@ const RecipeCard = ({
   ...details
 }) => {
   return (
-    <>
-      <div className="card border border-0 recipe-card shadow col-4">
-        <div className=" card-image-top recipe-image">
-          <img src={image} alt="recipeimage" />
+    <div
+      className="card border-0 recipe-card col-3 px-0 m-2"
+      style={{ width: "17rem" }}
+    >
+      <img className="card-img-top" src={image} alt="recipeimage" />
+      <div className="card-body w-100">
+        <div className="recipe-name ">
+          <h4 className="text-dark">
+            <span className="text-capitalize card-title fw-500 recipe-name-with">
+              {title}
+            </span>
+          </h4>
         </div>
-        <div className="card-body">
-          <div className="card-title recipe-name ">
-            <h4 className="text-dark">
-              <span className="text-capitalize recipe-name-with">
-                {srchText}
-              </span>{" "}
-              with {title?.slice(0, 10)}
-            </h4>
-          </div>
-          <div className="d-flex justify-content-end recipe-details-button">
-            <button
-              className="btn btn-dark p-1 pe-pointer"
-              onClick={handleTryIt}
-            >
-              Try it
-            </button>
-          </div>
+        <div className="d-flex justify-content-end recipe-details-button">
+          <button className="btn  p-1 pe-pointer" onClick={handleTryIt}>
+            More Details
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

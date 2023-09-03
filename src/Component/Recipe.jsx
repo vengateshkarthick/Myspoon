@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 import Search from "./Search";
 import RecipeModal from "./RecipeModal";
-import Bag from "../assests/bag.svg";
 import api from "../api";
+import NoData from "./NoData";
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
   const [recipes, setRecipes] = useState([]);
@@ -36,11 +36,14 @@ const RecipeContainer = () => {
           handleSearch={handleSearch}
           handleSearchBtn={handleSearchBtn}
         />
-        <p className="fs-6 m-auto  fw-500">
-          <span className="recipe-len fw-semibold">{recipes.length}</span>{" "}
-          Results found
-        </p>
-        <div className="row row-cols-12 justify-content-start aign-items-center">
+        {recipes.length > 0 && (
+          <p className="fs-6 m-auto  fw-500">
+            <span className="recipe-len fw-semibold">{recipes.length}</span>{" "}
+            Results found
+          </p>
+        )}
+
+        <div className="row row-cols-12 gap-2 ms-3 my-2 justify-content-start aign-items-center">
           {recipes.length ? (
             recipes.map(({ title, image, id, ...details }) => (
               <RecipeCard
@@ -48,18 +51,12 @@ const RecipeContainer = () => {
                 image={image}
                 handleTryIt={handleSelectedRecipe}
                 id={id}
-                srchText={searchText}
                 {...details}
                 onSelect={handleSelectedRecipe}
               />
             ))
           ) : (
-            <div className="d-flex gap-3 justify-content-center align-items-center">
-              <p className="text-dark">Oops!, no items in groceris</p>
-              <p className="no-data-image">
-                <img src={Bag} alt="no data" />
-              </p>
-            </div>
+            <NoData />
           )}
         </div>
       </div>
