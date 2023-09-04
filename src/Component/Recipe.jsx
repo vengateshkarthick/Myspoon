@@ -5,6 +5,7 @@ import Search from "./Search";
 import RecipeModal from "./RecipeModal";
 import api from "../api";
 import NoData from "./NoData";
+import Para from "./Para";
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
   const [recipes, setRecipes] = useState([]);
@@ -19,10 +20,12 @@ const RecipeContainer = () => {
   const catchFn = (e) => {
     let message = "There is no details about recipe!!";
     if (e?.response?.data?.code === 402)
-      toast.info(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 1500,
-      });
+      message =
+        "Your dish has consumed maximun spoons per day see you tomorrow!!";
+    toast.info(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 5000,
+    });
   };
   const handleSelectedRecipe = (details) => {
     Promise.all([
@@ -77,7 +80,8 @@ const RecipeContainer = () => {
   };
   return (
     <>
-      <div className="recipe-container d-flex flex-column">
+      <div className="recipe-container d-flex flex-column  my-2">
+        <Para />
         <Search
           searchText={searchText}
           handleSearch={handleSearch}

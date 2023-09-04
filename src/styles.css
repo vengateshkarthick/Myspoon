@@ -103,7 +103,6 @@ body {
   width: 100px;
   user-select: none;
 }
-
 .search-bar input {
   width: 400px;
 }
@@ -250,4 +249,27 @@ body {
 .recipe-modal .btn:hover {
   background-color: var(--danger-btn);
   color: #ffffff;
+}
+
+.para {
+  width: 100%;
+  margin: 1rem;
+}
+
+.para span,
+.collections {
+  color: var(--danger-btn);
+  font-weight: 200;
+  font-family: "Lobster Two", cursive;
+}
+
+.para p {
+}
+.para-image {
+  height: 100%;
+  width: 335px;
+}
+
+.para-content > div {
+  flex-basis: 30%;
 }
