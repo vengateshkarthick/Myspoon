@@ -4,7 +4,7 @@ import Barbeque from "../assests/barbeque.svg";
 const Para = () => {
   return (
     <div className="d-flex flex-column w-100 para">
-      <div className="d-flex justify-content-evenly para-content">
+      <div className="d-flex justify-content-evenly gap-1 para-content">
         <div>
           <img src={Spzmomant} alt="dinner" className="para-image" />
         </div>
@@ -19,7 +19,7 @@ const Para = () => {
           </p>
         </div>
       </div>
-      <div className="d-flex justify-content-evenly para-content">
+      <div className="d-flex justify-content-evenly gap-1 para-content">
         <div className="fs-5">
           <span className="fs-3">Bite your every moments</span>
           <p>
