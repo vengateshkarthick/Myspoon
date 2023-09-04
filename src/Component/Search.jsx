@@ -2,7 +2,7 @@ import React from "react";
 
 const Search = ({ handleSearch, searchTxt, handleSearchBtn }) => {
   return (
-    <div className="search-bar d-flex align-items-center mx-1 justify-content-center gap-3">
+    <div className="search-bar d-flex align-items-center mx-2 justify-content-center gap-3">
       <label className="form-label p-1">
         <input
           className="form-control"
@@ -10,9 +10,17 @@ const Search = ({ handleSearch, searchTxt, handleSearchBtn }) => {
           placeholder="Type recipe name"
           onChange={handleSearch}
           value={searchTxt}
+          onKeyUp={(e) => {
+            if ((e.which || e.key).toString().includes("13")) {
+              handleSearchBtn(e);
+            }
+          }}
         />
       </label>
-      <button className="btn btn-success p-1" onClick={handleSearchBtn}>
+      <button
+        className="btn btn-outline-dark fw-bold p-1"
+        onClick={handleSearchBtn}
+      >
         Search
       </button>
     </div>

@@ -15,6 +15,15 @@ const RecipeContainer = () => {
   const formatRecipeDetails = (details) => {
     return details;
   };
+
+  const catchFn = (e) => {
+    let message = "There is no details about recipe!!";
+    if (e?.response?.data?.code === 402)
+      toast.info(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
+      });
+  };
   const handleSelectedRecipe = (details) => {
     Promise.all([
       api.fetchRecipeSummary(details.id),
@@ -42,12 +51,7 @@ const RecipeContainer = () => {
         }
         setSelectedRecipe(recdetails);
       })
-      .catch((e) => {
-        toast.info("There is no details about recipe!!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1500,
-        });
-      });
+      .catch(catchFn);
   };
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -59,7 +63,7 @@ const RecipeContainer = () => {
     api
       .fetchRecipes(searchText)
       .then((res) => {
-        if (res.data) {
+        if (res.data && res.data.results.length) {
           setRecipes(res.data.results);
         } else {
           toast.info("There is no details about recipe!!", {
@@ -69,12 +73,7 @@ const RecipeContainer = () => {
           setSearchText(" ");
         }
       })
-      .catch(() => {
-        toast.info("There is no details about recipe!!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1500,
-        });
-      });
+      .catch(catchFn);
   };
   return (
     <>
