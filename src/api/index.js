@@ -24,7 +24,6 @@ const fetchRecipeNutrientDetails = (recipeId) =>
   axiosInstance.get(`recipes/${recipeId}/nutritionWidget.json`);
 
 export default {
-  fetchRecipeInstructions,
   fetchRecipeNutrientDetails,
   fetchRecipeSummary,
   fetchRecipeInstructions,

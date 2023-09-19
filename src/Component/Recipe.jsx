@@ -6,10 +6,14 @@ import RecipeModal from "./RecipeModal";
 import api from "../api";
 import NoData from "./NoData";
 import Para from "./Para";
+import ShimmerLoader from "./ShimmerLoader";
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
+  const [alreadySearched, setAlreadySearched] = useState({});
   const [recipes, setRecipes] = useState([]);
+  const [loader, setLoader] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState("");
+
   const handleClose = () => {
     setSelectedRecipe("");
   };
@@ -49,9 +53,10 @@ const RecipeContainer = () => {
                   .map(({ name }) => name[0].toUpperCase() + name.slice(1))
                   .join(" ") || "Nil";
               return i;
-            }
+            },
           );
         }
+        setLoader(false);
         setSelectedRecipe(recdetails);
       })
       .catch(catchFn);
@@ -62,21 +67,38 @@ const RecipeContainer = () => {
   };
 
   const handleSearchBtn = (e) => {
+    setRecipes([]);
     e.preventDefault();
-    api
-      .fetchRecipes(searchText)
-      .then((res) => {
-        if (res.data && res.data.results.length) {
-          setRecipes(res.data.results);
-        } else {
-          toast.info("There is no details about recipe!!", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1500,
-          });
-          setSearchText(" ");
-        }
-      })
-      .catch(catchFn);
+    setLoader(true);
+    const recipe = alreadySearched[searchText] ?? [];
+    if (recipe.length) {
+      seTimeout(() => {
+        setRecipes(recipe);
+        setLoader(false);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        api
+          .fetchRecipes(searchText)
+          .then((res) => {
+            if (res.data && res.data.results.length) {
+              setRecipes(res.data.results);
+              setAlreadySearched({
+                ...alreadySearched,
+                [searchText]: res.data.results,
+              });
+            } else {
+              toast.info("There is no details about recipe!!", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1500,
+              });
+              setSearchText(" ");
+            }
+            setLoader(false);
+          })
+          .catch(catchFn);
+      }, 2000);
+    }
   };
   return (
     <>
@@ -95,7 +117,18 @@ const RecipeContainer = () => {
         )}
 
         <div className="row row-cols-12 gap-2 ms-3 my-2 justify-content-start aign-items-center">
-          {recipes.length ? (
+          {loader && (
+            <>
+              <ShimmerLoader />
+              <ShimmerLoader />
+              <ShimmerLoader />
+              <ShimmerLoader />
+              <ShimmerLoader />
+              <ShimmerLoader />
+            </>
+          )}
+          {!loader && !recipes.length ? <NoData /> : null}
+          {!loader && recipes.length ? (
             recipes.map(({ title, image, id, ...details }) => (
               <RecipeCard
                 title={title}
@@ -106,7 +139,7 @@ const RecipeContainer = () => {
               />
             ))
           ) : (
-            <NoData />
+            <> </>
           )}
         </div>
       </div>

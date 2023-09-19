@@ -18,7 +18,7 @@ const Search = ({ handleSearch, searchTxt, handleSearchBtn }) => {
         />
       </label>
       <button
-        className="btn btn-outline-dark fw-bold p-1"
+        className="btn btn-outline-success fw-bold p-1"
         onClick={handleSearchBtn}
       >
         Search
