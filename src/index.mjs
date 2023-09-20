@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ToastContainer } from "react-toastify";
-import Footer from "./Component/Footer";
 import Heading from "./Component/Heading";
 import RecipeContainer from "./Component/Recipe";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +11,6 @@ const Container = () => {
     <div id="container-fluid">
       <Heading />
       <RecipeContainer />
-      <Footer />
       <ToastContainer />
     </div>
   );

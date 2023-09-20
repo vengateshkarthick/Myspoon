@@ -3,7 +3,7 @@ import Spzmomant from "../assests/secialmoment.svg";
 import Barbeque from "../assests/barbeque.svg";
 const Para = () => {
   return (
-    <div className="d-flex flex-column w-100 para">
+    <div className="d-flex flex-column w-100 para m-1">
       <div className="d-flex justify-content-evenly gap-1 para-content">
         <div>
           <img src={Spzmomant} alt="dinner" className="para-image" />

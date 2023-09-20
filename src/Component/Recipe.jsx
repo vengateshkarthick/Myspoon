@@ -7,6 +7,7 @@ import api from "../api";
 import NoData from "./NoData";
 import Para from "./Para";
 import ShimmerLoader from "./ShimmerLoader";
+import Footer from "./Footer";
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
   const [alreadySearched, setAlreadySearched] = useState({});
@@ -16,9 +17,6 @@ const RecipeContainer = () => {
 
   const handleClose = () => {
     setSelectedRecipe("");
-  };
-  const formatRecipeDetails = (details) => {
-    return details;
   };
 
   const catchFn = (e) => {
@@ -34,27 +32,31 @@ const RecipeContainer = () => {
   const handleSelectedRecipe = (details) => {
     Promise.all([
       api.fetchRecipeSummary(details.id),
-      api.fetchRecipeNutrientDetails(details.id),
       api.fetchRecipeInstructions(details.id),
     ])
-      .then(([res1, res2, res3]) => {
+      .then(([res1, res3]) => {
         const recdetails = { id: details.id, image: details.image };
         if (res1.data) {
           recdetails.summary = res1.data.summary;
           recdetails.title = res1.data.title;
         }
         if (res3.data) {
-          recdetails.steps = res3.data[0].steps?.map(
-            ({ step, ingredients }) => {
+          const [steps, ingredients] = res3.data[0].steps?.reduce(
+            (acc, { step, ingredients }) => {
               let i = {};
               i.step = step;
-              i.ingridents =
+              let _ingdts =
                 ingredients
                   .map(({ name }) => name[0].toUpperCase() + name.slice(1))
-                  .join(" ") || "Nil";
-              return i;
+                  .join(", ") || "Nil";
+              acc[0].push(i);
+              acc[1].push(_ingdts);
+              return acc;
             },
+            [[], []],
           );
+          recdetails.steps = steps;
+          recdetails.ingredients = ingredients;
         }
         setLoader(false);
         setSelectedRecipe(recdetails);
@@ -72,7 +74,7 @@ const RecipeContainer = () => {
     setLoader(true);
     const recipe = alreadySearched[searchText] ?? [];
     if (recipe.length) {
-      seTimeout(() => {
+      setTimeout(() => {
         setRecipes(recipe);
         setLoader(false);
       }, 500);
@@ -110,13 +112,13 @@ const RecipeContainer = () => {
           handleSearchBtn={handleSearchBtn}
         />
         {recipes.length > 0 && (
-          <p className="fs-6 m-auto  fw-500">
-            <span className="recipe-len fw-semibold">{recipes.length}</span>{" "}
-            Results found
+          <p className="fs-6 m-auto bg-light fw-500 border border-1 border-light p-2">
+            <span className="recipe-len fw-bold">{recipes.length}</span> Results
+            found
           </p>
         )}
 
-        <div className="row row-cols-12 gap-2 ms-3 my-2 justify-content-start aign-items-center">
+        <div className="row row-cols-12 gap-3 my-2 justify-content-center aign-items-center ">
           {loader && (
             <>
               <ShimmerLoader />
@@ -142,6 +144,7 @@ const RecipeContainer = () => {
             <> </>
           )}
         </div>
+        <Footer />
       </div>
       {selectedRecipe && (
         <RecipeModal {...selectedRecipe} handleClose={handleClose} />
