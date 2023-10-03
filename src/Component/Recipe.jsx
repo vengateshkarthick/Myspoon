@@ -144,7 +144,6 @@ const RecipeContainer = () => {
             <> </>
           )}
         </div>
-        <Footer />
       </div>
       {selectedRecipe && (
         <RecipeModal {...selectedRecipe} handleClose={handleClose} />
