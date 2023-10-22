@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import RecipeCard from "./RecipeCard";
-import Search from "./Search";
-import RecipeModal from "./RecipeModal";
+import RecipeCard from "../Component/RecipeCard";
+import Search from "../Component/Search";
 import api from "../api";
-import NoData from "./NoData";
-import Para from "./Para";
-import ShimmerLoader from "./ShimmerLoader";
-import Footer from "./Footer";
+import NoData from "../Component/NoData";
+import Para from "../Component/Para";
+import ShimmerLoader from "../Component/ShimmerLoader";
+import { useNavigate, useOutletContext } from "react-router";
+
 const RecipeContainer = () => {
   const [searchText, setSearchText] = useState("");
+  const { setSelectedRecipe } = useOutletContext();
   const [alreadySearched, setAlreadySearched] = useState({});
   const [recipes, setRecipes] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [selectedRecipe, setSelectedRecipe] = useState("");
-
-  const handleClose = () => {
-    setSelectedRecipe("");
-  };
+  const navigate = useNavigate();
 
   const catchFn = (e) => {
     let message = "There is no details about recipe!!";
@@ -60,6 +57,7 @@ const RecipeContainer = () => {
         }
         setLoader(false);
         setSelectedRecipe(recdetails);
+        navigate("/recipe");
       })
       .catch(catchFn);
   };
@@ -145,9 +143,6 @@ const RecipeContainer = () => {
           )}
         </div>
       </div>
-      {selectedRecipe && (
-        <RecipeModal {...selectedRecipe} handleClose={handleClose} />
-      )}
     </>
   );
 };

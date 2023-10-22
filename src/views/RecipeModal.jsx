@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import Slice from "../assests/sliceback.svg";
-import Summary from "./Summary";
-import Ingredients from "./Ingredients";
-import IngSteps from "./Steps";
+import Summary from "../Component/Summary";
+import Ingredients from "../Component/Ingredients";
+import IngSteps from "../Component/Steps";
+import { useNavigate, useOutletContext } from "react-router";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Box } from "@mui/system";
 import announce from "../assests/announce.svg";
 
-const RecipeModal = ({ image, summary, title, handleClose, ...details }) => {
+const RecipeModal = () => {
+  const { selectedRecipe, setSelectedRecipe } = useOutletContext();
+  const navigate = useNavigate();
+  const { image, summary, title, ...details } = selectedRecipe;
   const [val, setTabVal] = useState("1");
   const { steps = [], ingredients = [] } = details;
   const handleCloseIcon = (e) => {
@@ -17,6 +20,10 @@ const RecipeModal = ({ image, summary, title, handleClose, ...details }) => {
   };
   const handleTabChange = (_, key) => {
     setTabVal(key);
+  };
+  const handleClose = () => {
+    setSelectedRecipe("");
+    navigate("/recipe");
   };
 
   return (

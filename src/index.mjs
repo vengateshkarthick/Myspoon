@@ -1,30 +1,49 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import OutletContext from "./views/Outlet";
 import { ToastContainer } from "react-toastify";
 import Heading from "./Component/Heading";
-import RecipeContainer from "./Component/Recipe";
+import RecipeContainer from "./views/Recipe";
+import RecipeModal from "./views/RecipeModal";
+import Footer from "./Component/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
-import Footer from "./Component/Footer";
 
 const Container = () => {
   return (
-    <div id="container-fluid">
-      <Heading />
-      <RecipeContainer />
-      <Footer />
+    <div id="App">
+      <div id="container-fluid">
+        <Heading />
+        <OutletContext />
+        <Footer />
+        <ToastContainer />
+      </div>
     </div>
   );
 };
 
-const MyApp = () => {
-  return (
-    <div id="App">
-      <Container />
-      <ToastContainer />
-    </div>
-  );
-};
-const BaseElement = React.createElement("div", { id: "base" }, <MyApp />);
+export const route = createBrowserRouter([
+  {
+    path: "/",
+    element: <Container />,
+    children: [
+      {
+        path: "/home",
+        element: <RecipeContainer />,
+      },
+      {
+        path: "/recipe",
+        element: <RecipeModal />,
+      },
+    ],
+  },
+]);
+
+const BaseElement = React.createElement(
+  "div",
+  { id: "base" },
+  <RouterProvider router={route} />,
+);
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(BaseElement);
