@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_KEY = "0d6f211c89864186878371efe1440407";
+const API_KEY = process.env.API_KEY;
 axios.defaults.baseURL = "https://api.spoonacular.com";
 const axiosInstance = axios.create({
   params: {
